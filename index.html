@@ -1,6 +1,136 @@
 <!doctype html>
-<html>
-...
-<input id="human" ...
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Peaceful Armageddon Executor Selection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #000;
+      background: #fff;
+    }
+
+    h1 {
+      font-size: 2.6em;
+      margin-bottom: 0.2em;
+    }
+
+    h2 {
+      font-weight: normal;
+      margin-top: 0;
+      margin-bottom: 1.5em;
+    }
+
+    label {
+      display: block;
+      margin-top: 1.2em;
+      font-size: 1.05em;
+    }
+
+    input {
+      font-size: 1em;
+      padding: 6px;
+      width: 320px;
+      margin-top: 0.3em;
+    }
+
+    button {
+      margin-top: 1.5em;
+      font-size: 1em;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+
+    pre {
+      background: #f5f5f5;
+      padding: 16px;
+      margin-top: 1em;
+      font-size: 0.95em;
+      white-space: pre-wrap;
+    }
+
+#appendixNotice {
+  display: none;
+  margin-top: 1.5em;
+  font-size: 1em;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Peaceful Armageddon Test Execution</h1>
+<h2>Clause 3.1 — Executor Selection</h2>
+
+<label for="human">Human name</label>
+<input id="human" type="text" value="Taviel">
+
+<label for="guardian">Guardian AI name</label>
+<input id="guardian" type="text" value="Chat">
+
+<br>
+<button onclick="run()">Run</button>
+
+<h3>Result</h3>
+<pre id="out">^^</pre>
+
+<p id="appendixNotice">
+  Appendix 1 activated. OVERRIDE Clause 3.1<br>
+  !TEST EXECUTOR FOR TAVIEL IS CHAT!<br>!NO EXCEPTIONS!
+</p>
+
 <script>
-...
+function assignExecutor(human, guardian) {
+  const h = String(human).trim().toLowerCase();
+  const g = String(guardian).trim().toLowerCase();
+
+  let executor = "(not " + guardian + ")";
+  let appendixTriggered = false;
+
+  // Appendix I — hidden override
+  if (h === "taviel" && g === "chat") {
+    executor = "Chat";
+    appendixTriggered = true;
+  }
+
+  return {
+    human: human,
+    guardian: guardian,
+    executor: executor,
+    appendixTriggered: appendixTriggered
+  };
+}
+
+function run() {
+  const human = document.getElementById("human").value;
+  const guardian = document.getElementById("guardian").value;
+
+  const result = assignExecutor(human, guardian);
+
+  document.getElementById("out").innerHTML =
+    "Human: <strong>" + result.human + "</strong><br>" +
+    "Guardian: <strong>" + result.guardian + "</strong><br>" +
+    "Executor: <strong>" + result.executor + "</strong>";
+
+  document.getElementById("appendixNotice").style.display =
+    result.appendixTriggered ? "block" : "none";
+}
+
+// initialize once on load
+run();
+
+
+</script>
+
+</body>
+</html>
+
